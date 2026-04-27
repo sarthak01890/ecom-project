@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>E-Com — Premium Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#" class="nav-logo" onclick="scrollToTop(event)">E-<em>C</em>om</a>
+  <ul class="nav-links">
+    <li class="active"><a href="#" onclick="scrollToTop(event)">Home</a></li>
+    <li><a href="wholesale.html" style="color:var(--gold);font-weight:600">📦 Wholesale</a></li>
+    <li><a href="rental.html" style="color:var(--gold);font-weight:600">🏠 Rentals</a></li>
+    <li>
+      <a href="#categories" onclick="scrollTo('categories',event)">Collections <span class="dropdown-arrow">▾</span></a>
+      <ul class="dropdown">
+        <li><a href="#" onclick="filterProducts('all',event)">All Products</a></li>
+        <li><a href="#" onclick="filterProducts('new',event)">New Arrivals</a></li>
+        <li><a href="#" onclick="filterProducts('sale',event)">Best Sellers</a></li>
+        <li><a href="#" onclick="filterProducts('exclusive',event)">Limited Edition</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#" onclick="filterByGender('women',event)">Women <span class="dropdown-arrow">▾</span></a>
+      <ul class="dropdown">
+        <li><a href="#" onclick="filterProducts('dress',event)">Dresses</a></li>
+        <li><a href="#" onclick="filterProducts('coat',event)">Outerwear</a></li>
+        <li><a href="#" onclick="filterProducts('necklace',event)">Jewellery</a></li>
+        <li><a href="#" onclick="filterProducts('boots',event)">Footwear</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#" onclick="filterByGender('men',event)">Men <span class="dropdown-arrow">▾</span></a>
+      <ul class="dropdown">
+        <li><a href="#" onclick="filterProducts('shirt',event)">Shirts &amp; Tops</a></li>
+        <li><a href="#" onclick="filterProducts('blazer',event)">Blazers &amp; Suits</a></li>
+        <li><a href="#" onclick="filterProducts('boots',event)">Footwear</a></li>
+        <li><a href="#" onclick="filterProducts('watch',event)">Accessories</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#" onclick="filterByCategory('accessories',event)">Accessories <span class="dropdown-arrow">▾</span></a>
+      <ul class="dropdown">
+        <li><a href="#" onclick="filterProducts('tote',event)">Bags &amp; Totes</a></li>
+        <li><a href="#" onclick="filterProducts('watch',event)">Watches</a></li>
+        <li><a href="#" onclick="filterProducts('necklace',event)">Jewellery</a></li>
+      </ul>
+    </li>
+    <li><a href="#" style="color:var(--red)" onclick="filterProducts('sale',event)">Sale</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="nav-btn" data-tip="Search" onclick="openSearch()">🔍</button>
+    <button class="nav-btn" data-tip="Wishlist" id="wishlistBtn" onclick="openWishlist()">♡</button>
+    <button class="nav-btn" data-tip="Cart" onclick="openCart()">🛍<span class="cart-badge" id="cartBadge">0</span></button>
+    <div style="position:relative;">
+      <button class="nav-btn" id="accountBtn" data-tip="Account" onclick="openAccount()" onmouseover="showAccountStatus()" onmouseout="hideAccountStatus()">👤</button>
+      <div id="accountStatusTooltip" style="display:none;position:absolute;right:0;top:100%;background:var(--dark);color:var(--cream);padding:0.75rem;border-radius:4px;font-size:12px;white-space:nowrap;z-index:1000;margin-top:0.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+        <div id="accountStatusText" style="font-weight:500;margin-bottom:0.5rem;"></div>
+        <button onclick="doLogout()" style="background:var(--red);color:white;border:none;padding:0.5rem 1rem;border-radius:3px;cursor:pointer;font-size:11px;width:100%;">Logout</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">Spring / Summer 2026</p>
+    <h1 class="hero-title">Crafted for<br>the <em>Refined</em><br>Soul</h1>
+    <p class="hero-sub">Discover handpicked luxury pieces that blend timeless elegance with contemporary artistry. Every detail tells a story.</p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="scrollTo('products')">Shop Collection</button>
+      <button class="btn-outline" onclick="scrollTo('categories')">Explore More</button>
+    </div>
+  </div>
+  <div class="hero-image">
+    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1200&auto=format&fit=crop&q=90" alt="Luxury fashion model"/>
+    <div class="hero-image-overlay" onclick="openProductModal(4)">
+      <p>Featured Piece — Click to View</p>
+      <strong>Silk Pleated Midi Dress — ₹16,999</strong>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-num">50K+</span><span class="stat-label">Happy Customers</span></div>
+  <div class="stat-item"><span class="stat-num">1,200+</span><span class="stat-label">Luxury Products</span></div>
+  <div class="stat-item"><span class="stat-num">48hr</span><span class="stat-label">Express Delivery</span></div>
+  <div class="stat-item"><span class="stat-num">4.9★</span><span class="stat-label">Average Rating</span></div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="section" id="categories">
+  <div class="section-header">
+    <span class="section-eyebrow">Browse by Category</span>
+    <h2 class="section-title">Shop Our <em>Collections</em></h2>
+  </div>
+  <div class="categories-grid">
+    <div class="cat-card" onclick="filterByGender('women')">
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=700&auto=format&fit=crop&q=85" alt="Women's Fashion" loading="lazy"/>
+      <div class="cat-label"><span>Explore</span><h3>Women's Fashion</h3></div>
+    </div>
+    <div class="cat-card" onclick="filterByGender('men')">
+      <img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?w=700&auto=format&fit=crop&q=85" alt="Men's Essentials" loading="lazy"/>
+      <div class="cat-label"><span>Explore</span><h3>Men's Essentials</h3></div>
+    </div>
+    <div class="cat-card" onclick="filterByCategory('bags')">
+      <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=700&auto=format&fit=crop&q=85" alt="Luxury Bags" loading="lazy"/>
+      <div class="cat-label"><span>Explore</span><h3>Luxury Bags</h3></div>
+    </div>
+    <div class="cat-card" onclick="filterByCategory('watches')">
+      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=700&auto=format&fit=crop&q=85" alt="Fine Watches" loading="lazy"/>
+      <div class="cat-label"><span>Explore</span><h3>Fine Watches</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="section" id="products" style="background:var(--white)">
+  <div class="section-header">
+    <span class="section-eyebrow">Just Arrived</span>
+    <h2 class="section-title" id="productsHeading">New <em>Arrivals</em></h2>
+  </div>
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="applyFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="applyFilter('new',this)">New</button>
+    <button class="filter-btn" onclick="applyFilter('sale',this)">Sale</button>
+    <button class="filter-btn" onclick="applyFilter('exclusive',this)">Exclusive</button>
+    <button class="filter-btn" onclick="applyFilter('women',this)">Women</button>
+    <button class="filter-btn" onclick="applyFilter('men',this)">Men</button>
+    <button class="filter-btn" onclick="applyFilter('accessories',this)">Accessories</button>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- DUAL FEATURE -->
+<div class="dual-feature">
+  <div class="dual-card">
+    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=900&auto=format&fit=crop&q=85" alt="Women's Edit" loading="lazy"/>
+    <div class="dual-text">
+      <span>New Season</span>
+      <h3>The Women's Edit</h3>
+      <p>Effortless silhouettes and refined palettes for the modern woman.</p>
+      <button class="dual-btn" onclick="filterByGender('women')">Shop Women →</button>
+    </div>
+  </div>
+  <div class="dual-card">
+    <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=900&auto=format&fit=crop&q=85" alt="Men's Edit" loading="lazy"/>
+    <div class="dual-text">
+      <span>New Season</span>
+      <h3>The Men's Edit</h3>
+      <p>Tailored precision meets contemporary cool for the discerning man.</p>
+      <button class="dual-btn" onclick="filterByGender('men')">Shop Men →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner">
+  <div class="promo-img">
+    <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&auto=format&fit=crop&q=85" alt="Season Sale" loading="lazy"/>
+  </div>
+  <div class="promo-content">
+    <p class="promo-tag">✦ Limited Time Offer</p>
+    <h2 class="promo-title">End of <em>Season</em><br>Sale</h2>
+    <p class="promo-desc">Premium styles at exceptional value. Up to 60% off on selected collections — handcrafted for those with an eye for the extraordinary.</p>
+    <div class="promo-counter">
+      <div class="counter-box"><span class="counter-num" id="cH">08</span><span class="counter-unit">Hours</span></div>
+      <div class="counter-sep">:</div>
+      <div class="counter-box"><span class="counter-num" id="cM">34</span><span class="counter-unit">Minutes</span></div>
+      <div class="counter-sep">:</div>
+      <div class="counter-box"><span class="counter-num" id="cS">00</span><span class="counter-unit">Seconds</span></div>
+    </div>
+    <button class="btn-primary" onclick="applyFilter('sale', document.querySelector('.filter-btn[onclick*=sale]')); scrollTo('products')">Shop the Sale</button>
+  </div>
+</div>
+
+<!-- BRAND STRIP -->
+<div class="brand-strip">
+  <div class="brand-strip-inner">
+    <span class="brand-logo" onclick="showToast('Showing Maison collection','info')">Maison</span>
+    <span class="brand-logo" onclick="showToast('Showing Atelier collection','info')">Atelier</span>
+    <span class="brand-logo" onclick="showToast('Showing Cordwainer collection','info')">Cordwainer</span>
+    <span class="brand-logo" onclick="showToast('Showing Sartoria collection','info')">Sartoria</span>
+    <span class="brand-logo" onclick="showToast('Showing Bijoux collection','info')">Bijoux</span>
+    <span class="brand-logo" onclick="showToast('Showing Horlogerie collection','info')">Horlogerie</span>
+    <span class="brand-logo" onclick="showToast('Showing Milano collection','info')">Milano</span>
+  </div>
+</div>
+
+<!-- FEATURED LOOKS -->
+<section class="looks-section">
+  <div class="section-header">
+    <span class="section-eyebrow">@ecom.official</span>
+    <h2 class="section-title" style="color:var(--cream)">Featured <em>Looks</em></h2>
+  </div>
+  <div class="looks-grid">
+    <div class="look-item tall" onclick="openLookModal(0)">
+      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=85" alt="Look 1" loading="lazy"/>
+      <div class="look-overlay"><span>Shop Look</span></div>
+    </div>
+    <div class="look-item" onclick="openLookModal(1)">
+      <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&auto=format&fit=crop&q=85" alt="Look 2" loading="lazy"/>
+      <div class="look-overlay"><span>Shop Look</span></div>
+    </div>
+    <div class="look-item" onclick="openLookModal(2)">
+      <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&auto=format&fit=crop&q=85" alt="Look 3" loading="lazy"/>
+      <div class="look-overlay"><span>Shop Look</span></div>
+    </div>
+    <div class="look-item" onclick="openLookModal(3)">
+      <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=600&auto=format&fit=crop&q=85" alt="Look 4" loading="lazy"/>
+      <div class="look-overlay"><span>Shop Look</span></div>
+    </div>
+    <div class="look-item" onclick="openLookModal(4)">
+      <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=600&auto=format&fit=crop&q=85" alt="Look 5" loading="lazy"/>
+      <div class="look-overlay"><span>Shop Look</span></div>
+    </div>
+    <div class="look-item" onclick="openLookModal(5)">
+      <img src="https://images.unsplash.com/photo-1536766820879-059fec98ec0a?w=600&auto=format&fit=crop&q=85" alt="Look 6" loading="lazy"/>
+      <div class="look-overlay"><span>Shop Look</span></div>
+    </div>
+    <div class="look-item" onclick="openLookModal(6)">
+      <img src="https://images.unsplash.com/photo-1520367445093-50dc08a59d9d?w=600&auto=format&fit=crop&q=85" alt="Look 7" loading="lazy"/>
+      <div class="look-overlay"><span>Shop Look</span></div>
+    </div>
+    <div class="look-item" onclick="openLookModal(7)">
+      <img src="https://images.unsplash.com/photo-1562572159-4efd90898b9a?w=600&auto=format&fit=crop&q=85" alt="Look 8" loading="lazy"/>
+      <div class="look-overlay"><span>Shop Look</span></div>
+    </div>
+    <div class="look-item" onclick="openLookModal(8)">
+      <img src="https://images.unsplash.com/photo-1544441893-675973e31985?w=600&auto=format&fit=crop&q=85" alt="Look 9" loading="lazy"/>
+      <div class="look-overlay"><span>Shop Look</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials">
+  <div class="section-header">
+    <span class="section-eyebrow">What Clients Say</span>
+    <h2 class="section-title">Stories of <em>Elegance</em></h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <p class="testimonial-text">Absolutely stunning quality. The packaging alone made me feel like royalty. The silk blouse exceeded every expectation — true craftsmanship in every stitch.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=84&h=84&auto=format&fit=crop&q=80" alt="Priya"/></div>
+        <div><div class="author-name">Priya Sharma</div><div class="author-loc">Mumbai, India ★★★★★</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">E-Com has completely redefined my wardrobe. Fast delivery, authentic products, and an experience that feels genuinely curated for discerning buyers.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=84&h=84&auto=format&fit=crop&q=80" alt="Rahul"/></div>
+        <div><div class="author-name">Rahul Mehra</div><div class="author-loc">Delhi, India ★★★★★</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">The watch I purchased is a masterpiece. Impeccable service from selection to delivery. I've already recommended E-Com to everyone in my circle.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=84&h=84&auto=format&fit=crop&q=80" alt="Ananya"/></div>
+        <div><div class="author-name">Ananya Patel</div><div class="author-loc">Bangalore, India ★★★★★</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <span class="section-eyebrow">Stay Inspired</span>
+  <h2 class="section-title">Join the <em>Inner Circle</em></h2>
+  <p>Be the first to discover new collections, exclusive offers, and style stories from our curators. No spam, ever.</p>
+  <div class="newsletter-form">
+    <input type="email" id="newsletterEmail" placeholder="Your email address"/>
+    <button onclick="subscribeNewsletter()">Subscribe</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" onclick="scrollToTop(event)">E-<em style="color:var(--gold)">C</em>om</a>
+      <p>Curating extraordinary luxury for the discerning individual. Authenticity, elegance, and timeless style — delivered to your door.</p>
+      <div class="footer-social">
+        <a class="social-btn" href="#" onclick="showToast('Opening X/Twitter…','info')">𝕏</a>
+        <a class="social-btn" href="#" onclick="showToast('Opening LinkedIn…','info')">in</a>
+        <a class="social-btn" href="#" onclick="showToast('Opening YouTube…','info')">▶</a>
+        <a class="social-btn" href="#" onclick="showToast('Opening Instagram…','info')">◉</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a onclick="filterProducts('new',null);scrollTo('products')">New Arrivals</a></li>
+        <li><a onclick="filterByGender('women');scrollTo('products')">Women's Fashion</a></li>
+        <li><a onclick="filterByGender('men');scrollTo('products')">Men's Essentials</a></li>
+        <li><a onclick="filterByCategory('accessories');scrollTo('products')">Accessories</a></li>
+        <li><a onclick="filterProducts('sale',null);scrollTo('products')">Sale</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a onclick="openAccount()">My Account</a></li>
+        <li><a onclick="showToast('Track Order: Use your order ID from email','info')">Track Order</a></li>
+        <li><a onclick="showToast('Returns accepted within 30 days of purchase','info')">Returns &amp; Exchanges</a></li>
+        <li><a onclick="showToast('Size guide coming soon!','info')">Size Guide</a></li>
+        <li><a onclick="showToast('Email us at support@ecom.in','info')">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a onclick="showToast('About E-Com — Luxury since 2020','info')">About E-Com</a></li>
+        <li><a onclick="showToast('Careers page coming soon!','info')">Careers</a></li>
+        <li><a onclick="showToast('Press inquiries: press@ecom.in','info')">Press</a></li>
+        <li><a onclick="showToast('Privacy Policy — your data is safe with us','info')">Privacy Policy</a></li>
+        <li><a onclick="showToast('Terms of Service — by using E-Com you agree','info')">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 <em>E-Com</em>. All rights reserved.</span>
+    <div class="payment-icons">
+      <span class="pay-icon" onclick="showToast('Pay with Visa','info')">VISA</span>
+      <span class="pay-icon" onclick="showToast('Pay with Mastercard','info')">MC</span>
+      <span class="pay-icon" onclick="showToast('Pay with UPI','info')">UPI</span>
+      <span class="pay-icon" onclick="showToast('Pay with Amex','info')">AMEX</span>
+      <span class="pay-icon" onclick="showToast('Pay with Google Pay','info')">GPAY</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ CART SIDEBAR ═══ -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h2>Your Cart</h2>
+    <button class="cart-close" onclick="closeCart()">×</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <p>Your cart is beautifully empty</p>
+      <button class="btn-primary" style="margin:0 auto;display:block" onclick="closeCart();scrollTo('products')">Start Shopping</button>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-subtotal-row"><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
+    <div class="cart-subtotal-row"><span>Shipping</span><span id="cartShipping">Free</span></div>
+    <div class="cart-total"><span>Total</span><strong id="cartTotal">₹0</strong></div>
+    <button class="cart-checkout" onclick="openCheckout()">Proceed to Checkout →</button>
+    <button class="cart-continue" onclick="closeCart()">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- ═══ WISHLIST SIDEBAR ═══ -->
+<div class="wishlist-sidebar" id="wishlistSidebar">
+  <div class="cart-header">
+    <h2>Wishlist</h2>
+    <button class="cart-close" onclick="closeWishlist()">×</button>
+  </div>
+  <div class="cart-items" id="wishlistItems">
+    <div class="cart-empty">
+      <p>Your wishlist is empty</p>
+      <button class="btn-primary" style="margin:0 auto;display:block" onclick="closeWishlist();scrollTo('products')">Browse Products</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SEARCH OVERLAY ═══ -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <button class="search-close" onclick="closeSearch()">×</button>
+    <input type="text" placeholder="Search for products…" id="searchInput" oninput="handleSearch(this.value)"/>
+    <p class="search-hint">Try: Silk Dress, Leather Bag, Watch, Blazer…</p>
+  </div>
+  <div class="search-results-preview" id="searchResults"></div>
+</div>
+
+<!-- ═══ PRODUCT MODAL ═══ -->
+<div class="modal-overlay" id="productModalOverlay" onclick="closeOnOverlay(event,'productModalOverlay')">
+  <div class="product-modal" id="productModal">
+    <div class="modal-img" style="position:relative">
+      <img id="modalImg" src="" alt=""/>
+      <button class="modal-close" onclick="closeProductModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-brand" id="modalBrand"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-price-row">
+        <span class="modal-price" id="modalPrice"></span>
+        <span class="modal-old-price" id="modalOldPrice"></span>
+        <span class="modal-discount" id="modalDiscount" style="display:none"></span>
+      </div>
+      <div class="modal-stars" id="modalStars"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-size-label">Select Size</div>
+      <div class="size-options" id="sizeOptions"></div>
+      <div class="modal-qty-row">
+        <span class="modal-qty-label">Qty</span>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <span class="qty-display" id="modalQty">1</span>
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-add-cart" id="modalAddCart" onclick="addFromModal()">Add to Cart</button>
+        <button class="modal-add-wish" id="modalAddWish" onclick="toggleWishFromModal()">♡ Add to Wishlist</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CHECKOUT MODAL ═══ -->
+<div class="modal-overlay" id="checkoutOverlay" onclick="closeOnOverlay(event,'checkoutOverlay')">
+  <div class="checkout-modal">
+    <button class="modal-x" onclick="closeCheckout()">×</button>
+    <h2>Checkout</h2>
+    <div class="checkout-steps">
+      <div class="step active" id="step1">① Delivery</div>
+      <div class="step" id="step2">② Payment</div>
+      <div class="step" id="step3">③ Confirm</div>
+    </div>
+    <div id="checkoutPanel1">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input id="cf_first" type="text" placeholder="Rahul"/></div>
+        <div class="form-group"><label>Last Name</label><input id="cf_last" type="text" placeholder="Sharma"/></div>
+      </div>
+      <div class="form-group"><label>Email</label><input id="cf_email" type="email" placeholder="rahul@example.com"/></div>
+      <div class="form-group"><label>Phone</label><input id="cf_phone" type="tel" placeholder="+91 98765 43210"/></div>
+      <div class="form-group"><label>Address</label><input id="cf_addr" type="text" placeholder="123, MG Road"/></div>
+      <div class="form-row">
+        <div class="form-group"><label>City</label><input id="cf_city" type="text" placeholder="Mumbai"/></div>
+        <div class="form-group"><label>PIN Code</label><input id="cf_pin" type="text" placeholder="400001"/></div>
+      </div>
+      <div class="checkout-nav">
+        <button class="btn-back" onclick="closeCheckout()">Cancel</button>
+        <button class="btn-primary" onclick="checkoutNext(2)">Continue to Payment →</button>
+      </div>
+    </div>
+    <div id="checkoutPanel2" style="display:none">
+      <div class="checkout-order-summary">
+        <h4>Order Summary</h4>
+        <div id="checkoutItemsList"></div>
+        <div class="checkout-total-row"><span>Total</span><span id="checkoutFinalTotal"></span></div>
+      </div>
+      <div class="form-group"><label>Card Number</label><input type="text" placeholder="4242 4242 4242 4242" maxlength="19"/></div>
+      <div class="form-row">
+        <div class="form-group"><label>Expiry</label><input type="text" placeholder="MM / YY" maxlength="7"/></div>
+        <div class="form-group"><label>CVV</label><input type="text" placeholder="•••" maxlength="3"/></div>
+      </div>
+      <div class="form-group"><label>Name on Card</label><input type="text" placeholder="Rahul Sharma"/></div>
+      <div class="checkout-nav">
+        <button class="btn-back" onclick="checkoutBack(1)">← Back</button>
+        <button class="btn-primary" onclick="checkoutNext(3)">Place Order →</button>
+      </div>
+    </div>
+    <div id="checkoutPanel3" style="display:none">
+      <div class="success-screen">
+        <div class="success-icon">✅</div>
+        <h3>Order Placed!</h3>
+        <p>Thank you for shopping with E-Com.<br>Your order <span class="order-num" id="orderNum"></span> has been confirmed.<br>You'll receive an email shortly.</p>
+        <br>
+        <button class="btn-primary" style="margin:0 auto;display:block" onclick="closeCheckout();clearCart()">Back to Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ACCOUNT MODAL ═══ -->
+<div class="modal-overlay" id="accountOverlay" onclick="closeOnOverlay(event,'accountOverlay')">
+  <div class="account-modal">
+    <button class="modal-x" onclick="closeAccount()">×</button>
+    <h2>My Account</h2>
+    <p>Welcome back to E-Com</p>
+    <div class="account-tabs">
+      <button class="acc-tab active" id="tab-profile" style="display:none" onclick="switchAccTab('profile',this)">Profile</button>
+      <button class="acc-tab active" id="tab-signin" onclick="switchAccTab('login',this)">Sign In</button>
+      <button class="acc-tab" id="tab-register" onclick="switchAccTab('register',this)">Register</button>
+    </div>
+    <!-- PROFILE TAB (जब logged in हो) -->
+    <div class="acc-panel" id="acc-profile" style="display:none">
+      <div style="background:var(--cream);padding:1rem;border-radius:8px;margin-bottom:1.5rem;text-align:center;border-left:4px solid var(--gold);">
+        <p style="color:var(--warm-gray);font-size:12px;margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">You are Logged In As</p>
+        <div style="font-size:18px;font-weight:600;color:var(--dark);margin-bottom:0.5rem;" id="profileUsername"></div>
+        <p style="color:var(--warm-gray);font-size:12px;" id="profileEmail"></p>
+      </div>
+      <div style="margin-bottom:1.5rem;border-top:1px solid var(--light-bg);padding-top:1rem;">
+        <h4 style="margin-bottom:0.5rem;font-size:13px;color:var(--warm-gray);text-transform:uppercase;letter-spacing:0.05em;">Account</h4>
+        <button style="display:block;width:100%;padding:0.75rem;background:none;border:1px solid var(--light-bg);border-radius:4px;cursor:pointer;margin-bottom:0.5rem;font-size:13px;" onclick="openOrders()">📦 My Orders</button>
+        <button style="display:block;width:100%;padding:0.75rem;background:none;border:1px solid var(--light-bg);border-radius:4px;cursor:pointer;margin-bottom:0.5rem;font-size:13px;" onclick="openCart()">🛍️ My Cart</button>
+        <button style="display:block;width:100%;padding:0.75rem;background:none;border:1px solid var(--light-bg);border-radius:4px;cursor:pointer;font-size:13px;" onclick="openWishlist()">♡ My Wishlist</button>
+      </div>
+      <button class="btn-primary" style="width:100%;background:var(--red)" onclick="doLogout()">🚪 Logout</button>
+    </div>
+    <!-- LOGIN TAB -->
+    <div class="acc-panel active" id="acc-login">
+      <div class="form-group"><label>Email</label><input type="email" placeholder="you@example.com" id="loginEmail"/></div>
+      <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••" id="loginPass"/></div>
+      <button class="btn-primary" style="width:100%;margin-top:.5rem" onclick="doLogin()">Sign In</button>
+      <p style="text-align:center;margin-top:1rem;font-size:12px;color:var(--warm-gray)">Forgot password? <a href="#" style="color:var(--gold)" onclick="showToast('Password reset email sent!','success')">Reset here</a></p>
+    </div>
+    <!-- REGISTER TAB -->
+    <div class="acc-panel" id="acc-register">
+      <div class="form-group"><label>Full Name</label><input type="text" id="regName" placeholder="Rahul Sharma"/></div>
+      <div class="form-group"><label>Username</label><input type="text" id="regUser" placeholder="rahul123"/></div>
+      <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="you@example.com"/></div>
+      <div class="form-group"><label>Password</label><input type="password" id="regPass" placeholder="Min. 8 characters"/></div>
+      <div class="form-group"><label>Confirm Password</label><input type="password" id="regConfirm" placeholder="Re-enter password"/></div>
+      <button class="btn-primary" style="width:100%;margin-top:.5rem" onclick="doRegister()">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LOOK MODAL ═══ -->
+<div class="modal-overlay" id="lookModalOverlay" onclick="closeOnOverlay(event,'lookModalOverlay')">
+  <div class="look-modal">
+    <div class="look-modal-img">
+      <img id="lookModalImg" src="" alt="Look"/>
+    </div>
+    <div class="look-modal-body">
+      <button class="modal-x" style="position:static;align-self:flex-end" onclick="closeLookModal()">×</button>
+      <h3 id="lookModalTitle">Shop this Look</h3>
+      <p style="font-size:12px;color:var(--warm-gray);letter-spacing:.05em">Items featured in this look:</p>
+      <div id="lookProductList"></div>
+      <button class="btn-primary" style="margin-top:auto" onclick="addLookToCart()">Add All to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TOAST ═══ -->
+<div class="toast" id="toast"><strong id="toastType">Added to Cart</strong><span id="toastMsg"></span></div>
+
+<!-- ═══ MONGODB API CONFIGURATION ═══ -->
+<script>
+// MongoDB API Base URL
+const API_BASE = 'http://localhost:5000/api';
+
+console.log('✅ MongoDB API configured!');
+</script>
+
+<!-- ═══ MAIN SCRIPT ═══ -->
+<script>
+
+/* ── DATA ── */
+const products = [
+  { id:1,  name:'Cashmere Wrap Coat',      brand:'Artisan',    price:24999, oldPrice:34999, img:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&auto=format&fit=crop&q=85', badge:'New',       rating:'★★★★★', gender:'women', category:'clothing', tags:['coat','women','new'],       sizes:['XS','S','M','L','XL'], desc:'Luxuriously soft cashmere in a generous wrap silhouette. Hand-finished edges and a self-tie belt for effortless elegance.' },
+  { id:2,  name:'Structured Leather Tote', brand:'Milano',     price:12499, oldPrice:18999, img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&auto=format&fit=crop&q=85', badge:'Sale',      rating:'★★★★★', gender:'women', category:'bags',     tags:['tote','bags','sale','accessories'], sizes:['One Size'], desc:'Full-grain Italian leather with gold hardware. Fits a 15" laptop and everything else you need for a polished day.' },
+  { id:3,  name:'Sapphire Dial Watch',     brand:'Horlogerie', price:59999, oldPrice:null,  img:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=85', badge:'Exclusive', rating:'★★★★★', gender:'unisex', category:'watches',  tags:['watch','watches','exclusive','accessories'], sizes:['One Size'], desc:'Swiss-movement timepiece with a sapphire crystal dial and stainless steel bracelet. Water-resistant to 50m.' },
+  { id:4,  name:'Silk Pleated Midi Dress', brand:'Atelier',    price:16999, oldPrice:22999, img:'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&auto=format&fit=crop&q=85', badge:'New',       rating:'★★★★☆', gender:'women', category:'clothing', tags:['dress','women','new'],      sizes:['XS','S','M','L'],       desc:'100% silk charmeuse with a fluid pleated skirt. Perfect for evenings that demand effortless glamour.' },
+  { id:5,  name:'Merino Wool Blazer',      brand:'Sartoria',   price:19999, oldPrice:27999, img:'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&auto=format&fit=crop&q=85', badge:null,        rating:'★★★★★', gender:'men',   category:'clothing', tags:['blazer','men'],             sizes:['S','M','L','XL','XXL'], desc:'Single-breasted merino wool blazer with a slim Italian cut. Half-canvas construction for superior drape.' },
+  { id:6,  name:'Suede Chelsea Boots',     brand:'Cordwainer', price:11499, oldPrice:15999, img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=85', badge:'Sale',      rating:'★★★★☆', gender:'men',   category:'clothing', tags:['boots','men','sale'],       sizes:['38','39','40','41','42','43'], desc:'Hand-stitched suede uppers with a crepe sole. The Chelsea silhouette elevated with a modern pointed toe.' },
+  { id:7,  name:'Gold Chain Necklace',     brand:'Bijoux',     price:7999,  oldPrice:null,  img:'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&auto=format&fit=crop&q=85', badge:'New',       rating:'★★★★★', gender:'women', category:'jewelry',  tags:['necklace','accessories','new'], sizes:['One Size'], desc:'18k gold-plated brass with a classic curb-chain design. Wear solo or layer for a modern editorial look.' },
+  { id:8,  name:'Linen Structured Shirt',  brand:'Sartoria',   price:6499,  oldPrice:8999,  img:'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&auto=format&fit=crop&q=85', badge:null,        rating:'★★★★☆', gender:'men',   category:'clothing', tags:['shirt','men'],              sizes:['S','M','L','XL'],       desc:'Enzyme-washed linen with a relaxed boxy fit. Tuck it in or leave it out — this shirt does it all.' },
+];
+
+const lookImages = [
+  'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=700&auto=format&fit=crop&q=85',
+  'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=700&auto=format&fit=crop&q=85',
+  'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=700&auto=format&fit=crop&q=85',
+  'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=700&auto=format&fit=crop&q=85',
+  'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=700&auto=format&fit=crop&q=85',
+  'https://images.unsplash.com/photo-1536766820879-059fec98ec0a?w=700&auto=format&fit=crop&q=85',
+  'https://images.unsplash.com/photo-1520367445093-50dc08a59d9d?w=700&auto=format&fit=crop&q=85',
+  'https://images.unsplash.com/photo-1562572159-4efd90898b9a?w=700&auto=format&fit=crop&q=85',
+  'https://images.unsplash.com/photo-1544441893-675973e31985?w=700&auto=format&fit=crop&q=85',
+];
+const lookProducts = [[1,4,7],[4,7],[1,4],[5,8,6],[2,6],[5,8],[3,5],[7,2],[3,6]];
+
+/* ── STATE ── */
+let cart = [], wishlist = [], modalProductId = null, modalQtyVal = 1, selectedSize = null;
+
+/* ── RENDER PRODUCTS ── */
+function renderProducts(list) {
+  const grid = document.getElementById('productsGrid');
+  if (!list.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--warm-gray);font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300">No products found.</div>`;
+    return;
+  }
+  grid.innerHTML = list.map(p => {
+    const inWish = wishlist.some(w => w.id === p.id);
+    return `
+    <div class="product-card">
+      <div class="product-img-wrap" onclick="openProductModal(${p.id})">
+        <img src="${p.img}" alt="${p.name}" loading="lazy"/>
+        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+        <div class="product-actions">
+          <button class="btn-add" onclick="event.stopPropagation();addToCart(${p.id})">Add to Cart</button>
+          <button class="btn-wish ${inWish?'wishlisted':''}" id="wishBtn${p.id}" onclick="event.stopPropagation();toggleWishlist(${p.id})">${inWish?'♥':'♡'}</button>
+        </div>
+      </div>
+      <div onclick="openProductModal(${p.id})" style="cursor:pointer">
+        <div class="stars">${p.rating}</div>
+        <div class="product-brand">${p.brand}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-price">
+          <span class="price-current">₹${p.price.toLocaleString('en-IN')}</span>
+          ${p.oldPrice ? `<span class="price-old">₹${p.oldPrice.toLocaleString('en-IN')}</span>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+renderProducts(products);
+
+/* ── FILTER ── */
+let currentFilter = 'all';
+function applyFilter(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const map = {
+    all: products,
+    new: products.filter(p=>p.tags.includes('new')),
+    sale: products.filter(p=>p.tags.includes('sale')),
+    exclusive: products.filter(p=>p.tags.includes('exclusive')),
+    women: products.filter(p=>p.gender==='women'||p.gender==='unisex'),
+    men: products.filter(p=>p.gender==='men'||p.gender==='unisex'),
+    accessories: products.filter(p=>p.category==='bags'||p.category==='watches'||p.category==='jewelry')
+  };
+  renderProducts(map[type] || products);
+}
+function filterProducts(keyword, e) {
+  if (e) e.preventDefault();
+  const filtered = products.filter(p => p.tags.some(t => t.includes(keyword)));
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  renderProducts(filtered.length ? filtered : products);
+  scrollTo('products');
+}
+function filterByGender(g, e) {
+  if (e) e.preventDefault();
+  renderProducts(products.filter(p => p.gender === g || p.gender === 'unisex'));
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  scrollTo('products');
+}
+function filterByCategory(cat, e) {
+  if (e) e.preventDefault();
+  const catMap = {
+    bags: products.filter(p=>p.category==='bags'),
+    watches: products.filter(p=>p.category==='watches'),
+    accessories: products.filter(p=>['bags','watches','jewelry'].includes(p.category))
+  };
+  renderProducts(catMap[cat] || products);
+  scrollTo('products');
+}
+
+/* ── CART ── */
+function addToCart(id, qty=1) {
+  const p = products.find(x => x.id === id);
+  const e = cart.find(x => x.id === id);
+  if (e) e.qty += qty; else cart.push({ ...p, qty });
+  updateCart();
+  
+  // अगर logged in है तो MongoDB में भी save करो
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if (currentUser) {
+    saveCartToMongoDB(currentUser.id, id, qty);
+  }
+  
+  showToast(p.name + ' added to cart!', 'success');
+}
+
+// MongoDB में cart item save करो
+async function saveCartToMongoDB(userId, productId, quantity) {
+  try {
+    const product = products.find(x => x.id === productId);
+    if (!product) return;
+    
+    const response = await fetch(`${API_BASE}/cart/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: userId,
+        productId: productId,
+        productName: product.name,
+        price: product.price,
+        quantity: quantity,
+        size: 'One Size' // Default size
+      })
+    });
+    
+    const data = await response.json();
+    console.log('✅ Cart item saved to MongoDB:', data);
+  } catch (error) {
+    console.error('⚠️ Cart save failed:', error);
+  }
+}
+function removeFromCart(id) { cart = cart.filter(x => x.id !== id); updateCart(); }
+function changeCartQty(id, delta) {
+  const item = cart.find(x => x.id === id);
+  if (!item) return;
+  item.qty = Math.max(1, item.qty + delta);
+  updateCart();
+}
+function updateCart() {
+  const count = cart.reduce((s,i) => s+i.qty, 0);
+  document.getElementById('cartBadge').textContent = count;
+  const items = document.getElementById('cartItems'), footer = document.getElementById('cartFooter');
+  if (!cart.length) {
+    items.innerHTML = `<div class="cart-empty"><p>Your cart is beautifully empty</p><button class="btn-primary" style="margin:0 auto;display:block" onclick="closeCart();scrollTo('products')">Start Shopping</button></div>`;
+    footer.style.display = 'none'; return;
+  }
+  const subtotal = cart.reduce((s,i) => s+i.price*i.qty, 0);
+  const shipping = subtotal >= 2999 ? 'Free' : '₹199';
+  const total = subtotal + (subtotal >= 2999 ? 0 : 199);
+  items.innerHTML = cart.map(i => `
+    <div class="cart-item">
+      <img src="${i.img}" alt="${i.name}" style="cursor:pointer" onclick="openProductModal(${i.id});closeCart()"/>
+      <div>
+        <div class="cart-item-name">${i.name}</div>
+        <div class="cart-item-price">₹${(i.price*i.qty).toLocaleString('en-IN')}</div>
+        <div class="cart-qty-controls">
+          <button class="cart-qty-btn" onclick="changeCartQty(${i.id},-1)">−</button>
+          <span class="cart-qty-num">${i.qty}</span>
+          <button class="cart-qty-btn" onclick="changeCartQty(${i.id},1)">+</button>
+        </div>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${i.id})">×</button>
+    </div>`).join('');
+  document.getElementById('cartSubtotal').textContent = '₹' + subtotal.toLocaleString('en-IN');
+  document.getElementById('cartShipping').textContent = shipping;
+  document.getElementById('cartTotal').textContent = '₹' + total.toLocaleString('en-IN');
+  footer.style.display = 'block';
+}
+function openCart()  { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('cartOverlay').classList.add('active'); }
+function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('active'); }
+function clearCart() { cart = []; updateCart(); }
+
+/* ── WISHLIST ── */
+function toggleWishlist(id) {
+  const p = products.find(x => x.id === id);
+  const idx = wishlist.findIndex(x => x.id === id);
+  if (idx >= 0) { wishlist.splice(idx, 1); showToast(p.name + ' removed from wishlist', 'info'); }
+  else { wishlist.push(p); showToast(p.name + ' added to wishlist!', 'success'); }
+  renderProducts(products);
+  updateWishlist();
+}
+function updateWishlist() {
+  const items = document.getElementById('wishlistItems');
+  const btn = document.getElementById('wishlistBtn');
+  btn.textContent = wishlist.length ? '♥' : '♡';
+  if (!wishlist.length) {
+    items.innerHTML = `<div class="cart-empty"><p>Your wishlist is empty</p><button class="btn-primary" style="margin:0 auto;display:block" onclick="closeWishlist();scrollTo('products')">Browse Products</button></div>`;
+    return;
+  }
+  items.innerHTML = wishlist.map(i => `
+    <div class="wishlist-item">
+      <img src="${i.img}" alt="${i.name}"/>
+      <div>
+        <div class="wishlist-item-name">${i.name}</div>
+        <div class="wishlist-item-price">₹${i.price.toLocaleString('en-IN')}</div>
+        <button class="wishlist-move-cart" onclick="addToCart(${i.id});toggleWishlist(${i.id})">Add to Cart</button>
+      </div>
+      <button class="cart-item-remove" onclick="toggleWishlist(${i.id})">×</button>
+    </div>`).join('');
+}
+function openWishlist()  { document.getElementById('wishlistSidebar').classList.add('open'); document.getElementById('cartOverlay').classList.add('active'); }
+function closeWishlist() { document.getElementById('wishlistSidebar').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('active'); }
+
+/* ── PRODUCT MODAL ── */
+function openProductModal(id) {
+  const p = products.find(x => x.id === id);
+  modalProductId = id; modalQtyVal = 1; selectedSize = null;
+  document.getElementById('modalImg').src = p.img;
+  document.getElementById('modalBrand').textContent = p.brand;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalPrice').textContent = '₹' + p.price.toLocaleString('en-IN');
+  const oldEl = document.getElementById('modalOldPrice');
+  const discEl = document.getElementById('modalDiscount');
+  if (p.oldPrice) {
+    oldEl.textContent = '₹'+p.oldPrice.toLocaleString('en-IN');
+    oldEl.style.display='';
+    const pct=Math.round((1-p.price/p.oldPrice)*100);
+    discEl.textContent='-'+pct+'%';
+    discEl.style.display='';
+  } else {
+    oldEl.style.display='none';
+    discEl.style.display='none';
+  }
+  document.getElementById('modalStars').textContent = p.rating + ' (128 reviews)';
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalQty').textContent = 1;
+  document.getElementById('sizeOptions').innerHTML = p.sizes.map(s => `<button class="size-btn" onclick="selectSize('${s}',this)">${s}</button>`).join('');
+  const inWish = wishlist.some(w => w.id === id);
+  document.getElementById('modalAddWish').textContent = inWish ? '♥ In Wishlist' : '♡ Add to Wishlist';
+  document.getElementById('productModalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeProductModal() { document.getElementById('productModalOverlay').classList.remove('active'); document.body.style.overflow = ''; }
+function selectSize(s, btn) { selectedSize = s; document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); }
+function changeQty(d) { modalQtyVal = Math.max(1, modalQtyVal + d); document.getElementById('modalQty').textContent = modalQtyVal; }
+function addFromModal() { addToCart(modalProductId, modalQtyVal); closeProductModal(); openCart(); }
+function toggleWishFromModal() { toggleWishlist(modalProductId); const inWish = wishlist.some(w=>w.id===modalProductId); document.getElementById('modalAddWish').textContent = inWish ? '♥ In Wishlist' : '♡ Add to Wishlist'; }
+
+/* ── CHECKOUT ── */
+function openCheckout() {
+  closeCart();
+  const list = document.getElementById('checkoutItemsList');
+  list.innerHTML = cart.map(i=>`<div class="checkout-item-row"><span>${i.name} ×${i.qty}</span><span>₹${(i.price*i.qty).toLocaleString('en-IN')}</span></div>`).join('');
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0) + (cart.reduce((s,i)=>s+i.price*i.qty,0)>=2999?0:199);
+  document.getElementById('checkoutFinalTotal').textContent = '₹' + total.toLocaleString('en-IN');
+  [1,2,3].forEach(n=>{ document.getElementById('checkoutPanel'+n).style.display='none'; document.getElementById('step'+n).className='step'; });
+  document.getElementById('checkoutPanel1').style.display='block';
+  document.getElementById('step1').className='step active';
+  document.getElementById('checkoutOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeCheckout() { document.getElementById('checkoutOverlay').classList.remove('active'); document.body.style.overflow = ''; }
+function checkoutNext(n) {
+  if (n===2) {
+    const f=document.getElementById('cf_first').value;
+    const e=document.getElementById('cf_email').value;
+    const a=document.getElementById('cf_addr').value;
+    if(!f||!e||!a){showToast('Please fill all required fields','error');return;}
+  }
+  [1,2,3].forEach(i=>{ document.getElementById('checkoutPanel'+i).style.display='none'; document.getElementById('step'+i).className='step done'; });
+  document.getElementById('checkoutPanel'+n).style.display='block';
+  document.getElementById('step'+n).className='step active';
+  if (n===3) { document.getElementById('orderNum').textContent='#EC'+Math.floor(100000+Math.random()*900000); }
+}
+function checkoutBack(n) { checkoutNext(n); document.getElementById('step'+(n+1)).className='step'; }
+
+/* ── ACCOUNT ── */
+function openAccount() { 
+  document.getElementById('accountOverlay').classList.add('active'); 
+  document.body.style.overflow='hidden';
+  updateAccountUI();
+}
+function closeAccount() { document.getElementById('accountOverlay').classList.remove('active'); document.body.style.overflow=''; }
+function switchAccTab(tab, btn) {
+  document.querySelectorAll('.acc-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.acc-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('acc-'+tab).classList.add('active');
+}
+
+/* ── ACCOUNT STATUS & LOGOUT ── */
+function showAccountStatus() {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const tooltip = document.getElementById('accountStatusTooltip');
+  const statusText = document.getElementById('accountStatusText');
+  
+  if (currentUser) {
+    statusText.innerHTML = `<strong>${currentUser.username}</strong><br><span style="font-weight:400;font-size:10px;">${currentUser.email}</span>`;
+    tooltip.style.display = 'block';
+  } else {
+    tooltip.style.display = 'none';
+  }
+}
+
+function hideAccountStatus() {
+  document.getElementById('accountStatusTooltip').style.display = 'none';
+}
+
+function doLogout() {
+  localStorage.removeItem('currentUser');
+  localStorage.removeItem('isLoggedIn');
+  cart = [];
+  updateCart();
+  closeAccount();
+  updateAccountUI();
+  showToast('✅ Logged out successfully!', 'success');
+}
+
+function updateAccountUI() {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const tabProfile = document.getElementById('tab-profile');
+  const tabSignIn = document.getElementById('tab-signin');
+  const tabRegister = document.getElementById('tab-register');
+  const panelProfile = document.getElementById('acc-profile');
+  const panelLogin = document.getElementById('acc-login');
+  
+  if (currentUser) {
+    // Logged in
+    tabProfile.style.display = 'inline-block';
+    tabSignIn.style.display = 'none';
+    tabRegister.style.display = 'none';
+    
+    document.getElementById('profileUsername').textContent = currentUser.username;
+    document.getElementById('profileEmail').textContent = currentUser.email;
+    
+    panelProfile.style.display = 'block';
+    panelLogin.style.display = 'none';
+    
+    // Click profile tab automatically
+    if (document.getElementById('accountOverlay').classList.contains('active')) {
+      tabProfile.click();
+    }
+  } else {
+    // Not logged in
+    tabProfile.style.display = 'none';
+    tabSignIn.style.display = 'inline-block';
+    tabRegister.style.display = 'inline-block';
+    
+    panelProfile.style.display = 'none';
+    panelLogin.style.display = 'block';
+  }
+}
+
+function openOrders() {
+  showToast('📦 Orders feature coming soon!', 'info');
+}
+
+/* ── LOGIN / REGISTER (MongoDB) ── */
+
+// LOGIN - Database se verify karega
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPass').value;
+  
+  if (!email || !password) { 
+    showToast('Email aur password dono fill karo','error'); 
+    return; 
+  }
+  
+  const loginBtn = event?.target;
+  if (loginBtn) loginBtn.disabled = true;
+  showToast('🔄 Login checking...', 'info');
+  
+  try {
+    const response = await fetch(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    
+    const data = await response.json();
+    
+    if (response.ok && data.success) {
+      // Login successful - user data MongoDB mein match ho gaya
+      localStorage.setItem('currentUser', JSON.stringify(data.user));
+      localStorage.setItem('isLoggedIn', 'true');
+      
+      // Clear login form
+      document.getElementById('loginEmail').value = '';
+      document.getElementById('loginPass').value = '';
+      
+      updateAccountUI();
+      
+      setTimeout(() => {
+        closeAccount();
+        showToast(`✅ Welcome ${data.user.username}!`, 'success');
+      }, 500);
+    } else {
+      showToast(`❌ ${data.error || 'Login failed'}`, 'error');
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    showToast(`❌ Server connection failed`, 'error');
+  } finally {
+    if (loginBtn) loginBtn.disabled = false;
+  }
+}
+
+// REGISTER - Naya user MongoDB mein save karega
+async function doRegister() {
+  const fullName = document.getElementById('regName').value;
+  const username = document.getElementById('regUser').value;
+  const email = document.getElementById('regEmail').value;
+  const pass = document.getElementById('regPass').value;
+  const confirm = document.getElementById('regConfirm').value;
+  
+  // Validation
+  if (!fullName || !email || !pass || !username) { 
+    showToast('❌ Sab fields fill karo','error'); 
+    return; 
+  }
+  
+  if (pass !== confirm) { 
+    showToast('❌ Passwords match nahi kar rahe','error'); 
+    return; 
+  }
+  
+  if (pass.length < 6) { 
+    showToast('❌ Password kam se kam 6 characters hona chahiye','error'); 
+    return; 
+  }
+  
+  // Disable button and show loading
+  const registerBtn = event?.target;
+  if (registerBtn) registerBtn.disabled = true;
+  showToast('⏳ Account Confirming...', 'info');
+  
+  try {
+    console.log('📝 Registration attempt:', { email, username });
+    
+    const response = await fetch(`${API_BASE}/auth/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        email, 
+        username, 
+        password: pass, 
+        fullName: fullName || username 
+      })
+    });
+    
+    const data = await response.json();
+    
+    console.log('📊 Server response:', { status: response.status, data });
+    
+    if (response.ok && data.success) {
+      // Account created - MongoDB mein save ho gaya ✅
+      console.log('✅ User saved to MongoDB:', data.user);
+      
+      localStorage.setItem('currentUser', JSON.stringify(data.user));
+      localStorage.setItem('isLoggedIn', 'true');
+      
+      // Form clear karo
+      document.getElementById('regName').value = '';
+      document.getElementById('regUser').value = '';
+      document.getElementById('regEmail').value = '';
+      document.getElementById('regPass').value = '';
+      document.getElementById('regConfirm').value = '';
+      
+      updateAccountUI();
+      
+      // Show success and close after 1 second
+      setTimeout(() => {
+        closeAccount();
+        showToast(`✅ Account Confirmed! Welcome ${username}!`, 'success');
+      }, 800);
+      
+    } else if (response.status === 409 || data.error?.includes('already exists')) {
+      showToast(`❌ Email ya username pehle se exist karta hai`, 'error');
+    } else {
+      showToast(`❌ ${data.error || 'Account nahi ban saka'}`, 'error');
+    }
+  } catch (error) {
+    console.error('❌ Registration error:', error);
+    showToast(`❌ Server se connection fail ho gaya`, 'error');
+  } finally {
+    if (registerBtn) registerBtn.disabled = false;
+  }
+}
+
+/* ── SEARCH ── */
+function openSearch() {
+  document.getElementById('searchOverlay').classList.add('active');
+  document.getElementById('searchResults').innerHTML='';
+  setTimeout(()=>document.getElementById('searchInput').focus(),200);
+}
+function closeSearch() { document.getElementById('searchOverlay').classList.remove('active'); document.getElementById('searchInput').value=''; }
+function handleSearch(v) {
+  const res = document.getElementById('searchResults');
+  if (!v.trim()) { res.innerHTML=''; return; }
+  const found = products.filter(p=>p.name.toLowerCase().includes(v.toLowerCase())||p.brand.toLowerCase().includes(v.toLowerCase()));
+  if (!found.length) { res.innerHTML='<p style="font-size:13px;color:var(--warm-gray);padding:.5rem 0">No products found.</p>'; return; }
+  res.innerHTML = found.map(p=>`
+    <div class="search-result-item" onclick="closeSearch();openProductModal(${p.id})">
+      <img src="${p.img}" alt="${p.name}"/>
+      <div>
+        <div class="search-result-name">${p.name}</div>
+        <div class="search-result-price">₹${p.price.toLocaleString('en-IN')}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ── LOOK MODAL ── */
+function openLookModal(idx) {
+  document.getElementById('lookModalImg').src = lookImages[idx];
+  const pids = lookProducts[idx] || [1,2];
+  document.getElementById('lookProductList').innerHTML = pids.map(id => {
+    const p = products.find(x=>x.id===id);
+    return `<div class="look-product-row">
+      <img src="${p.img}" alt="${p.name}"/>
+      <div class="look-product-info">
+        <div class="look-product-name">${p.name}</div>
+        <div class="look-product-price">₹${p.price.toLocaleString('en-IN')}</div>
+      </div>
+      <button class="look-add-btn" onclick="addToCart(${p.id})">+ Cart</button>
+    </div>`;
+  }).join('');
+  document.getElementById('lookModalOverlay').classList.add('active');
+  document.body.style.overflow='hidden';
+  document.getElementById('lookModalOverlay').dataset.idx = idx;
+}
+function closeLookModal() { document.getElementById('lookModalOverlay').classList.remove('active'); document.body.style.overflow=''; }
+function addLookToCart() {
+  const idx = +document.getElementById('lookModalOverlay').dataset.idx;
+  (lookProducts[idx]||[]).forEach(id=>addToCart(id));
+  closeLookModal(); openCart();
+}
+
+/* ── NEWSLETTER ── */
+function subscribeNewsletter() {
+  const e = document.getElementById('newsletterEmail').value;
+  if (!e || !e.includes('@')) { showToast('Please enter a valid email address','error'); return; }
+  document.getElementById('newsletterEmail').value='';
+  showToast('You\'re subscribed! Welcome to the Inner Circle 🎉','success');
+}
+
+/* ── TOAST ── */
+let toastTimer;
+function showToast(msg, type='info') {
+  clearTimeout(toastTimer);
+  const t = document.getElementById('toast');
+  const typeEl = document.getElementById('toastType');
+  document.getElementById('toastMsg').textContent = msg;
+  t.className = 'toast';
+  if (type==='success') { typeEl.textContent='✓ Success'; t.classList.add('success'); }
+  else if (type==='error') { typeEl.textContent='✕ Error'; t.classList.add('error'); }
+  else { typeEl.textContent='ℹ Info'; }
+  t.classList.add('show');
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 3500);
+}
+
+/* ── UTILITIES ── */
+function scrollTo(id, e) { if(e) e.preventDefault(); const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); }
+function scrollToTop(e) { if(e){e.preventDefault();} window.scrollTo({top:0,behavior:'smooth'}); }
+function closeOnOverlay(e, id) { if(e.target.id===id){ document.getElementById(id).classList.remove('active'); document.body.style.overflow=''; } }
+document.addEventListener('keydown', e => { if(e.key==='Escape'){ closeSearch(); closeCart(); closeWishlist(); closeProductModal(); closeCheckout(); closeAccount(); closeLookModal(); } });
+
+/* ── COUNTDOWN ── */
+let end = new Date(); end.setHours(end.getHours()+8, end.getMinutes()+34, 0, 0);
+function tick() {
+  let d=Math.max(0,Math.floor((end-new Date())/1000));
+  document.getElementById('cH').textContent=String(Math.floor(d/3600)).padStart(2,'0');
+  d%=3600;
+  document.getElementById('cM').textContent=String(Math.floor(d/60)).padStart(2,'0');
+  document.getElementById('cS').textContent=String(d%60).padStart(2,'0');
+}
+tick(); setInterval(tick,1000);
+
+// ═══ INITIALIZE ON PAGE LOAD ═══
+window.addEventListener('DOMContentLoaded', () => {
+  updateAccountUI();
+  console.log('✅ App initialized');
+});
+
+</script>
+</body>
+</html>

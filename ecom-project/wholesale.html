@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wholesale — E-Com</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    :root {
+      --dark: #1a1a1a;
+      --cream: #faf8f3;
+      --gold: #d4af37;
+      --red: #b22222;
+      --warm-gray: #8b8b8b;
+      --light-bg: #f5f5f5;
+      --white: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); }
+
+    .wholesale-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+    /* Navigation Tabs */
+    .wholesale-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--light-bg);
+    }
+
+    .wholesale-tab {
+      padding: 1rem 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--warm-gray);
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+
+    .wholesale-tab.active {
+      color: var(--dark);
+      border-bottom-color: var(--gold);
+    }
+
+    /* Panels */
+    .wholesale-panel {
+      display: none;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .wholesale-panel.active { display: block; }
+
+    /* Product Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 1.5rem;
+    }
+
+    .product-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+
+    .product-seller {
+      color: var(--warm-gray);
+      font-size: 14px;
+      margin-bottom: 1rem;
+    }
+
+    .product-price {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .product-details {
+      font-size: 14px;
+      color: var(--warm-gray);
+      margin-bottom: 1rem;
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .filter-group label {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .filter-input, .filter-select {
+      padding: 0.75rem;
+      border: 2px solid var(--light-bg);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .filter-input:focus, .filter-select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .btn-filter {
+      padding: 0.75rem 1.5rem;
+      background: var(--gold);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .btn-filter:hover {
+      background: #b8941f;
+    }
+
+    /* Upload Form */
+    .wholesale-upload-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      max-width: 800px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 1rem;
+      border: 2px solid var(--light-bg);
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .btn-primary {
+      padding: 1rem 2rem;
+      background: var(--gold);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      grid-column: 1 / -1;
+    }
+
+    .btn-primary:hover {
+      background: #b8941f;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      animation: fadeIn 0.3s;
+    }
+
+    .modal.active { display: flex; align-items: center; justify-content: center; }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s;
+    }
+
+    .modal-header {
+      padding: 2rem;
+      border-bottom: 1px solid var(--light-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--warm-gray);
+    }
+
+    .modal-body {
+      padding: 2rem;
+    }
+
+    .modal-images {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .modal-image {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      z-index: 1001;
+      animation: slideInRight 0.3s;
+    }
+
+    .toast.success { background: #4CAF50; }
+    .toast.error { background: #f44336; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+    @media (max-width: 768px) {
+      .wholesale-upload-form { grid-template-columns: 1fr; }
+      .filters { flex-direction: column; align-items: stretch; }
+      .products-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wholesale-container">
+    <!-- Navigation Tabs -->
+    <div class="wholesale-tabs">
+      <button class="wholesale-tab active" onclick="switchTab('browse', this)">🔍 Browse Wholesale</button>
+      <button class="wholesale-tab" onclick="switchTab('upload', this)">📦 List Wholesale Item</button>
+    </div>
+
+    <!-- Browse Wholesale Tab -->
+    <div class="wholesale-panel active" id="wholesale-browse">
+      <h2 style="margin-bottom: 1.5rem;">Wholesale Products</h2>
+
+      <!-- Filters -->
+      <div class="filters">
+        <div class="filter-group">
+          <label>Search</label>
+          <input type="text" id="searchInput" class="filter-input" placeholder="Search products...">
+        </div>
+        <div class="filter-group">
+          <label>Category</label>
+          <select id="categoryFilter" class="filter-select">
+            <option value="">All Categories</option>
+            <option value="electronics">Electronics</option>
+            <option value="clothing">Clothing</option>
+            <option value="home">Home & Garden</option>
+            <option value="books">Books</option>
+            <option value="sports">Sports</option>
+            <option value="beauty">Beauty</option>
+            <option value="toys">Toys</option>
+            <option value="automotive">Automotive</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Min Price</label>
+          <input type="number" id="minPriceFilter" class="filter-input" placeholder="0">
+        </div>
+        <div class="filter-group">
+          <label>Max Price</label>
+          <input type="number" id="maxPriceFilter" class="filter-input" placeholder="10000">
+        </div>
+        <div class="filter-group">
+          <label>Location</label>
+          <input type="text" id="locationFilter" class="filter-input" placeholder="City, State">
+        </div>
+        <button class="btn-filter" onclick="filterProducts()">🔍 Filter</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div id="productsGrid" class="products-grid">
+        <p>Loading wholesale products...</p>
+      </div>
+    </div>
+
+    <!-- Upload Wholesale Tab -->
+    <div class="wholesale-panel" id="wholesale-upload">
+      <h2 style="margin-bottom: 1.5rem;">List Your Wholesale Product</h2>
+
+      <form class="wholesale-upload-form" onsubmit="submitWholesaleUpload(event)">
+        <div class="form-group">
+          <label>Product Title *</label>
+          <input type="text" id="wholesaleTitle" placeholder="e.g., Wireless Headphones Bulk Pack" required>
+        </div>
+
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="wholesaleCategory" required>
+            <option value="">Select Category</option>
+            <option value="electronics">Electronics</option>
+            <option value="clothing">Clothing</option>
+            <option value="home">Home & Garden</option>
+            <option value="books">Books</option>
+            <option value="sports">Sports</option>
+            <option value="beauty">Beauty</option>
+            <option value="toys">Toys</option>
+            <option value="automotive">Automotive</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="wholesaleDescription" placeholder="Detailed product description..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Brand</label>
+          <input type="text" id="wholesaleBrand" placeholder="e.g., Sony, Nike">
+        </div>
+
+        <div class="form-group">
+          <label>Wholesale Price (per unit) *</label>
+          <input type="number" id="wholesalePrice" min="1" placeholder="100" required>
+        </div>
+
+        <div class="form-group">
+          <label>Suggested Retail Price</label>
+          <input type="number" id="retailPrice" min="1" placeholder="200">
+        </div>
+
+        <div class="form-group">
+          <label>Minimum Order Quantity</label>
+          <input type="number" id="minOrderQuantity" min="1" value="10" required>
+        </div>
+
+        <div class="form-group">
+          <label>Available Quantity</label>
+          <input type="number" id="availableQuantity" min="0" placeholder="100" required>
+        </div>
+
+        <div class="form-group">
+          <label>Condition</label>
+          <select id="wholesaleCondition" required>
+            <option value="new">New</option>
+            <option value="refurbished">Refurbished</option>
+            <option value="used">Used</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" id="wholesaleLocation" placeholder="City, State, Country">
+        </div>
+
+        <div class="form-group">
+          <label>Specifications</label>
+          <textarea id="wholesaleSpecs" placeholder="Product specifications, dimensions, materials..." rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Shipping Info</label>
+          <textarea id="wholesaleShipping" placeholder="Shipping details, costs, delivery time..." rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Payment Terms</label>
+          <input type="text" id="wholesalePayment" placeholder="e.g., COD, Bank Transfer, 30 days credit">
+        </div>
+
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label>Upload Images (up to 5)</label>
+          <input type="file" id="wholesaleImages" accept="image/*" multiple>
+          <small>Max 5 images, formats: JPG, PNG</small>
+        </div>
+
+        <button type="submit" class="btn-primary">📦 List Wholesale Product</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Product Modal -->
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Product Details</h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Product details will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Modal -->
+  <div class="modal" id="chatModal">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h2>💬 Chat with <span id="chatUserName">Seller</span></h2>
+        <button class="modal-close" onclick="closeChatModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="bookingChatMessages" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; background: #f9f9f9;"></div>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="text" id="bookingChatInput" placeholder="Type your message..." style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" onkeypress="handleChatKeyPress(event)">
+          <button onclick="sendBookingMessage()" style="padding: 0.5rem 1rem; background: var(--gold); color: white; border: none; border-radius: 4px; cursor: pointer;">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:5000/api';
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    let wholesaleProducts = [];
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      loadWholesaleProducts();
+    });
+
+    // Tab switching
+    function switchTab(tabName, button) {
+      document.querySelectorAll('.wholesale-tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.wholesale-panel').forEach(panel => panel.classList.remove('active'));
+
+      button.classList.add('active');
+      document.getElementById('wholesale-' + tabName).classList.add('active');
+    }
+
+    // Load wholesale products
+    async function loadWholesaleProducts() {
+      try {
+        const response = await fetch(`${API_BASE}/wholesale/products`);
+        const data = await response.json();
+
+        if (data.success) {
+          wholesaleProducts = data.products;
+          displayProducts(wholesaleProducts);
+        } else {
+          document.getElementById('productsGrid').innerHTML = '<p>Failed to load products</p>';
+        }
+      } catch (error) {
+        console.error('Error loading products:', error);
+        document.getElementById('productsGrid').innerHTML = '<p>Error loading products</p>';
+      }
+    }
+
+    // Display products
+    function displayProducts(products) {
+      const grid = document.getElementById('productsGrid');
+
+      if (!products.length) {
+        grid.innerHTML = '<p>No wholesale products available</p>';
+        return;
+      }
+
+      grid.innerHTML = products.map(product => `
+        <div class="product-card" onclick="openProductModal('${product._id}')">
+          <img src="${product.images[0] || '/placeholder.jpg'}" alt="${product.title}" class="product-image">
+          <div class="product-info">
+            <div class="product-title">${product.title}</div>
+            <div class="product-seller">By ${product.sellerName}</div>
+            <div class="product-price">₹${product.wholesalePrice}/unit</div>
+            <div class="product-details">
+              Min Order: ${product.minOrderQuantity}<br>
+              Available: ${product.availableQuantity}<br>
+              ${product.location ? `📍 ${product.location}` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Filter products
+    function filterProducts() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const category = document.getElementById('categoryFilter').value;
+      const minPrice = parseFloat(document.getElementById('minPriceFilter').value) || 0;
+      const maxPrice = parseFloat(document.getElementById('maxPriceFilter').value) || Infinity;
+      const location = document.getElementById('locationFilter').value.toLowerCase();
+
+      const filtered = wholesaleProducts.filter(product => {
+        const matchesSearch = !search ||
+          product.title.toLowerCase().includes(search) ||
+          product.description.toLowerCase().includes(search) ||
+          (product.brand && product.brand.toLowerCase().includes(search));
+
+        const matchesCategory = !category || product.category === category;
+        const matchesPrice = product.wholesalePrice >= minPrice && product.wholesalePrice <= maxPrice;
+        const matchesLocation = !location || (product.location && product.location.toLowerCase().includes(location));
+
+        return matchesSearch && matchesCategory && matchesPrice && matchesLocation;
+      });
+
+      displayProducts(filtered);
+    }
+
+    // Open product modal
+    async function openProductModal(productId) {
+      try {
+        const response = await fetch(`${API_BASE}/wholesale/products/${productId}`);
+        const data = await response.json();
+
+        if (data.success) {
+          const product = data.product;
+          const modal = document.getElementById('productModal');
+          const modalBody = document.getElementById('modalBody');
+
+          modalBody.innerHTML = `
+            <div class="modal-images">
+              ${product.images.map(img => `<img src="${img}" alt="${product.title}" class="modal-image">`).join('')}
+            </div>
+            <h3>${product.title}</h3>
+            <p><strong>Brand:</strong> ${product.brand || 'N/A'}</p>
+            <p><strong>Category:</strong> ${product.category}</p>
+            <p><strong>Description:</strong> ${product.description}</p>
+            <p><strong>Wholesale Price:</strong> ₹${product.wholesalePrice}/unit</p>
+            ${product.retailPrice ? `<p><strong>Suggested Retail:</strong> ₹${product.retailPrice}/unit</p>` : ''}
+            <p><strong>Minimum Order:</strong> ${product.minOrderQuantity} units</p>
+            <p><strong>Available:</strong> ${product.availableQuantity} units</p>
+            <p><strong>Condition:</strong> ${product.condition}</p>
+            ${product.location ? `<p><strong>Location:</strong> ${product.location}</p>` : ''}
+            ${product.specifications ? `<p><strong>Specifications:</strong> ${product.specifications}</p>` : ''}
+            ${product.shippingInfo ? `<p><strong>Shipping:</strong> ${product.shippingInfo}</p>` : ''}
+            ${product.paymentTerms ? `<p><strong>Payment Terms:</strong> ${product.paymentTerms}</p>` : ''}
+            <p><strong>Seller:</strong> ${product.sellerName} (${product.sellerEmail})</p>
+            <div style="margin-top: 1rem;">
+              <button onclick="initWholesaleChat()" style="padding: 0.75rem 1.5rem; background: var(--gold); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">💬 Contact Seller</button>
+            </div>
+          `;
+
+          // Store data for chat
+          modal.dataset.ownerId = product.sellerId;
+          modal.dataset.ownerName = product.sellerName;
+          modal.dataset.productId = product._id;
+
+          modal.classList.add('active');
+        }
+      } catch (error) {
+        console.error('Error loading product:', error);
+        showToast('❌ Failed to load product details', 'error');
+      }
+    }
+
+    // Close modal
+    function closeModal() {
+      document.getElementById('productModal').classList.remove('active');
+    }
+
+    // Upload wholesale product
+    async function submitWholesaleUpload(event) {
+      event.preventDefault();
+
+      if (!currentUser) {
+        showToast('❌ Please login to upload', 'error');
+        return;
+      }
+
+      console.log('🚀 Starting wholesale upload for user:', currentUser);
+
+      const formData = new FormData();
+      formData.append('sellerId', currentUser.id || currentUser._id);
+      formData.append('sellerName', currentUser.username);
+      formData.append('sellerEmail', currentUser.email);
+      formData.append('title', document.getElementById('wholesaleTitle').value);
+      formData.append('category', document.getElementById('wholesaleCategory').value);
+      formData.append('description', document.getElementById('wholesaleDescription').value);
+      formData.append('wholesalePrice', document.getElementById('wholesalePrice').value);
+      formData.append('retailPrice', document.getElementById('retailPrice').value);
+      formData.append('minOrderQuantity', document.getElementById('minOrderQuantity').value);
+      formData.append('availableQuantity', document.getElementById('availableQuantity').value);
+      formData.append('brand', document.getElementById('wholesaleBrand').value);
+      formData.append('condition', document.getElementById('wholesaleCondition').value);
+      formData.append('location', document.getElementById('wholesaleLocation').value);
+      formData.append('specifications', document.getElementById('wholesaleSpecs').value);
+      formData.append('shippingInfo', document.getElementById('wholesaleShipping').value);
+      formData.append('paymentTerms', document.getElementById('wholesalePayment').value);
+
+      const files = document.getElementById('wholesaleImages').files;
+      console.log('📸 Files selected:', files.length);
+      for (let file of files) {
+        formData.append('images', file);
+        console.log('📎 Added file:', file.name);
+      }
+
+      try {
+        console.log('📦 Sending wholesale upload request...');
+        const response = await fetch(`${API_BASE}/wholesale/upload`, {
+          method: 'POST',
+          body: formData
+        });
+
+        console.log('📥 Response status:', response.status);
+        const data = await response.json();
+        console.log('📄 Response data:', data);
+
+        if (data.success) {
+          showToast('✅ Wholesale product listed successfully!', 'success');
+          event.target.reset();
+          loadWholesaleProducts();
+        } else {
+          showToast(`❌ ${data.error}`, 'error');
+        }
+      } catch (error) {
+        console.error('❌ Wholesale upload error:', error);
+        showToast('❌ Upload failed: ' + error.message, 'error');
+      }
+    }
+
+    // Toast notifications
+    function showToast(message, type) {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('productModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // Play notification sound
+    function playNotificationSound() {
+      // Create audio context
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 800;
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.5);
+    }
+
+    // Update notification badge
+    function updateNotificationBadge(productId) {
+      // Increment notification counter in chat modal if it exists
+      const chatUserName = document.getElementById('chatUserName');
+      if (chatUserName && chatUserName.textContent) {
+        let badge = document.getElementById('notificationBadge');
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.id = 'notificationBadge';
+          badge.style.cssText = 'display: inline-block; background: #f44336; color: white; border-radius: 50%; width: 24px; height: 24px; line-height: 24px; text-align: center; font-size: 12px; font-weight: bold; margin-left: 0.5rem;';
+          chatUserName.parentElement.appendChild(badge);
+        }
+        const count = parseInt(badge.textContent || 0) + 1;
+        badge.textContent = count;
+      }
+    }
+
+    // Initialize Socket.io for chat
+    let socket;
+    function initializeSocket() {
+      if (socket) return;
+      socket = io('http://localhost:5000');
+      
+      socket.on('receive-message', (data) => {
+        addBookingChatMessage(data, false);
+      });
+      
+      // Listen for message notifications
+      socket.on('message-notification', (data) => {
+        if (data.chatType === 'wholesale') {
+          // Play notification sound
+          playNotificationSound();
+          
+          // Show toast notification
+          showToast(`📨 ${data.senderName}: "${data.message}..."`, 'success');
+          
+          // Show notification badge
+          updateNotificationBadge(data.productId);
+        }
+      });
+    }
+
+    // Initialize chat
+    function initWholesaleChat() {
+      if (!currentUser) {
+        showToast('❌ कृपया पहले लॉगिन करें!', 'error');
+        return;
+      }
+      
+      const ownerId = document.getElementById('productModal').dataset.ownerId;
+      const ownerName = document.getElementById('productModal').dataset.ownerName;
+      const productId = document.getElementById('productModal').dataset.productId;
+      
+      if (!socket) initializeSocket();
+      
+      // Join chat room
+      socket.emit('join-chat', {
+        userId: currentUser.id,
+        otherUserId: ownerId,
+        productId: productId,
+        chatType: 'wholesale'
+      });
+      
+      // Set up chat UI
+      document.getElementById('chatUserName').textContent = ownerName;
+      document.getElementById('bookingChatMessages').innerHTML = '';
+      document.getElementById('bookingChatMessages').dataset.ownerId = ownerId;
+      document.getElementById('bookingChatMessages').dataset.productId = productId;
+      
+      // Clear notification badge
+      const badge = document.getElementById('notificationBadge');
+      if (badge) {
+        badge.remove();
+      }
+      
+      // Load previous messages
+      loadChatMessages(ownerId, productId);
+      
+      // Show chat modal
+      document.getElementById('chatModal').classList.add('active');
+    }
+
+    // Load chat messages
+    async function loadChatMessages(otherUserId, productId) {
+      try {
+        const response = await fetch(`${API_BASE}/messages/${currentUser.id}/${otherUserId}/${productId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          data.messages.forEach(msg => {
+            const isOwn = msg.senderId === currentUser.id;
+            addBookingChatMessage(msg, isOwn);
+          });
+        }
+      } catch (error) {
+        console.error('Error loading chat messages:', error);
+      }
+    }
+
+    // Send message
+    function sendBookingMessage() {
+      const input = document.getElementById('bookingChatInput');
+      const message = input.value.trim();
+      const ownerId = document.getElementById('bookingChatMessages').dataset.ownerId;
+      const productId = document.getElementById('bookingChatMessages').dataset.productId;
+      
+      if (!message || !socket) return;
+      
+      socket.emit('send-message', {
+        senderId: currentUser.id,
+        senderName: currentUser.username,
+        receiverId: ownerId,
+        receiverName: document.getElementById('chatUserName').textContent,
+        productId: productId,
+        chatType: 'wholesale',
+        message: message
+      });
+      
+      addBookingChatMessage({ 
+        senderName: currentUser.username, 
+        message,
+        timestamp: new Date() 
+      }, true);
+      input.value = '';
+    }
+
+    // Handle chat key press
+    function handleChatKeyPress(event) {
+      if (event.key === 'Enter') {
+        sendBookingMessage();
+      }
+    }
+
+    // Add message to UI
+    function addBookingChatMessage(msg, isOwn) {
+      const container = document.getElementById('bookingChatMessages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `chat-message ${isOwn ? 'own' : ''}`;
+      msgDiv.innerHTML = `<strong>${msg.senderName}</strong>: ${msg.message}`;
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Close chat modal
+    function closeChatModal() {
+      document.getElementById('chatModal').classList.remove('active');
+    }
+  </script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</body>
+</html>
