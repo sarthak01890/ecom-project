@@ -757,7 +757,7 @@ async function submitUpload(event) {
   //   return;
   // }
   
-  console.log('🚀 अपलोड शुरू:', currentUser);
+  console.log('UPLOAD START:', currentUser);
   
   const formData = new FormData();
   // Use test user ID if not logged in
@@ -794,13 +794,13 @@ async function submitUpload(event) {
     console.log('📄 Response data:', data);
     
     if (data.success) {
-      showToast('✅ आपका आइटम रेंट के लिए लिस्ट हो गया!', 'success');
+      showToast('✅ “Your item has been successfully listed for rent!”', 'success');
       event.target.reset();
       // Switch to browse tab to show the uploaded item
       switchTab('browse', document.querySelector('.rental-tab.active'));
       loadRentalProducts();
     } else {
-      showToast(`❌ अपलोड फेल: ${data.error}`, 'error');
+      showToast(`❌ UPLOAD FAILED: ${data.error}`, 'error');
     }
   } catch (error) {
     console.error('❌ Upload error:', error);

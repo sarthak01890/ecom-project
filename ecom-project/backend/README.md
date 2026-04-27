@@ -13,7 +13,7 @@ ecom-project/
 ├── mongodb-setup.md        ← Detailed setup guide
 ├── .env.example            ← Environment template
 ├── supabase-setup.sql      ← ❌ DEPRECATED (removed)
-└── README.md               ← Yeh file
+└── README.md               ← This file
 ```
 
 ---
